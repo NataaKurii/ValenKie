@@ -1,0 +1,33 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# Customer data
+data = {
+    'Age': [25, 30, 20, 35, 40, 50, 43, 42],
+    'TotalSpend': [18000, 15000, 8000, 22000, 40000, 32000, 9000, 12000],
+    'ShoppingFrequency': [20, 10, 8, 5, 14, 15, 6, 16]
+}
+
+df = pd.DataFrame(data)
+
+# K-means clustering with k=3
+kmeans = KMeans(n_clusters=3, random_state=42)
+df['Cluster'] = kmeans.fit_predict(df)
+
+# Visualize the clusters in 3D space
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(df['Age'], df['TotalSpend'], df['ShoppingFrequency'], c=df['Cluster'], marker='o', s=100)
+
+ax.set_xlabel('Age')
+ax.set_ylabel('Total Spend')
+ax.set_zlabel('Shopping Frequency')
+
+plt.title('Customer Clusters')
+plt.show()
+
+# Display the clustered data
+print(df[['Age', 'TotalSpend', 'ShoppingFrequency', 'Cluster']])
